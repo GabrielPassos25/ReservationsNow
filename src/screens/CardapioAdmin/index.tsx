@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import { View, FlatList, Text } from "react-native";
+import React, { useState, useEffect, useContext } from "react";
+import { View, FlatList, TouchableOpacity, Text, Alert } from "react-native";
 import { ModalWI } from "../../components/ModalWI";
 import { FloatingAction } from "react-native-floating-action";
+import { api } from "../../utils/api";
 import InputSpinner from "react-native-input-spinner";
-
+import { RestauranteContext } from "../../components/Contexts/RestauranteContext";
 import {
   Container,
   StatusBarAndroid,
@@ -13,12 +14,14 @@ import {
   ButtonSelectPrato,
   TextModal,
   TextButton,
+  TextButton2,
 } from "./styles";
-
-import { TopTab } from "../../components/TopTab";
+import { useNavigation } from "@react-navigation/native";
+import { TopTab } from "../../components/TopBar";
 import { TopButtons } from "../../components/TopButtons";
 import { PratosCardapio } from "../../components/PratosCardapio";
 import { dataPrato } from "../../utils/mocado";
+import { ModalCreatePrato } from "../../components/ModalCreatePrato";
 
 interface PropsPrato {
   id: string;
@@ -29,19 +32,41 @@ interface PropsPrato {
 }
 export function CardapioAdmin() {
   const [modalVisible, setModalVisible] = useState(false);
-  const [currentNamePrato, setCurrentNamePrato] = useState("aa");
-  const [currentPrice, setCurrentPrice] = useState(0);
-  const [totalPrice, setTotalPrice] = useState(0);
+  const [pratoSelecionado, setPratoSelecionado] = useState();
+  const { infos, comandaAtual, setComandaAtual } = useContext(RestauranteContext);
+  const [pratos, setPratos] = useState<any>([]);
+  const navigation = useNavigation();
   function handleCancelModal() {
-    setCurrentPrice(0);
-    setTotalPrice(0);
     setModalVisible(!modalVisible);
   }
 
-  function handleExitModal() {
-    setCurrentPrice(0);
-    setTotalPrice(0);
-    setModalVisible(!modalVisible);
+  interface IQueryResponse {
+    message: string;
+    status: number;
+    data?: any;
+  }
+
+  async function handleConfirmModal() {
+    const data = {
+      id: pratoSelecionado.id,
+      quantidade: pratoSelecionado.quantidade
+    }
+    let response: IQueryResponse = (await api.put('/comanda/' + comandaAtual.id, data)).data.response;
+    if (response.status != 200) {
+      Alert.alert("Erro", response.message, [
+        {
+          text: "ok",
+          onPress: () => {
+            //Do nothing
+          },
+        },
+      ]);
+    } else {
+      response = (await api.post('/comanda/' + comandaAtual.id)).data.response
+      setComandaAtual({...response.data, id: comandaAtual.id});
+      setModalVisible(!modalVisible);
+      navigation.navigate('Comanda');
+    }
   }
 
   const [menuSelected, setMenuSelected] = useState("ENTRADAS");
@@ -49,16 +74,25 @@ export function CardapioAdmin() {
   function handleMenuSelected(menuOption: string) {
     setMenuSelected(menuOption);
   }
-
-  function handleClickSelectPrato(data: PropsPrato) {
+  async function handleClickSelectPrato(data: Object) {
+    await setPratoSelecionado({...data, quantidade: 0});
     setModalVisible(!modalVisible);
-    setCurrentNamePrato(data.title);
-    setCurrentPrice(data.price);
   }
+  useEffect(() => {
+    async function getData() {
+      await api
+        .get(`/pratos/${infos.id}`)
+        .then(({ data }) => {
+          setPratos(data.response.data);
+        })
+        .catch((error) => console.log("Ops", error));
+    }
+    getData();
+  }, []);
   return (
     <Container>
       <StatusBarAndroid />
-      <TopTab name="Cardápio - administrador" />
+      <TopTab />
 
       <ButtonsContainer>
         <TopButtons
@@ -72,6 +106,11 @@ export function CardapioAdmin() {
           active={"PRINCIPAL" === menuSelected}
           onPress={() => handleMenuSelected("PRINCIPAL")}
         />
+        <TopButtons
+          title="BEBIDAS"
+          active={"BEBIDAS" === menuSelected}
+          onPress={() => handleMenuSelected("BEBIDAS")}
+        />
 
         <TopButtons
           title="SOBREMESAS"
@@ -82,7 +121,7 @@ export function CardapioAdmin() {
 
       <DescriptionContainer>
         <FlatList
-          data={dataPrato}
+          data={pratos.filter((prato: any) => prato.categoria === menuSelected)}
           keyExtractor={(item) => String(item.id)}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
@@ -99,11 +138,11 @@ export function CardapioAdmin() {
       {modalVisible && (
         <ModalWI
           title="Realizar pedido"
-          text={currentNamePrato}
+          text={pratoSelecionado.nome}
           textCancel="Sair"
           textConfirm="Concluir"
           cancel={handleCancelModal}
-          exit={handleExitModal}
+          confirm={handleConfirmModal}
         >
           <View>
             <InputSpinner
@@ -115,25 +154,12 @@ export function CardapioAdmin() {
               background={"#947FBA"}
               style={{ marginTop: "5%", marginBottom: "5%" }}
               width={"80%"}
-              onDecrease={(num) => {
-                console.log(num, totalPrice);
-                setTotalPrice((prev) => prev - currentPrice);
-              }}
-              onIncrease={(num) => {
-                console.log(num, totalPrice);
-                setTotalPrice((prev) => prev + currentPrice);
-              }}
+              onChange = {(value) => setPratoSelecionado({...pratoSelecionado, quantidade: value})}
             />
           </View>
-          <TextModal>Total: R${totalPrice} </TextModal>
+          <TextModal>Total: R${pratoSelecionado.preco * pratoSelecionado.quantidade} </TextModal>
         </ModalWI>
       )}
-      <FloatingAction
-        color={"#8572DA"}
-        onPressItem={(name) => {
-          console.log(`selected button: ${name}`);
-        }}
-      />
     </Container>
   );
 }

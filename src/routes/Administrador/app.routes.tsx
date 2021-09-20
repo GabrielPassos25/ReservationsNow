@@ -33,7 +33,7 @@ function ComandaStackScreen() {
 export function AdminRoutes() {
     const theme = useTheme();
     return (
-        <Navigator tabBarOptions={{ tabStyle: { paddingBottom: Platform.OS === 'ios' ? 0 : 5 }, activeTintColor: theme.colors.purple, inactiveTintColor: theme.colors.white, labelPosition: 'below-icon', style: { paddingVertical: Platform.OS === 'ios' ? 20 : 0, height: Platform.OS === 'ios' ? 88 : 60, backgroundColor: theme.colors.primary, justifyContent: 'center', borderTopColor: theme.colors.primary_light2 } }}>
+        <Navigator tabBarOptions={{keyboardHidesTabBar: true, tabStyle: { paddingBottom: Platform.OS === 'ios' ? 0 : 5 }, activeTintColor: theme.colors.purple, inactiveTintColor: theme.colors.white, labelPosition: 'below-icon', style: { paddingVertical: Platform.OS === 'ios' ? 20 : 0, height: Platform.OS === 'ios' ? 88 : 60, backgroundColor: theme.colors.primary, justifyContent: 'center', borderTopColor: theme.colors.primary_light2 } }}>
             <Screen
                 name="Início"
                 component={DashboardAdmin}
@@ -41,21 +41,14 @@ export function AdminRoutes() {
                     tabBarIcon: (({ size, color }) => (
                         <Ionicons name="home" size={size} color={color} />
                     ))
-                }}
-            />
-            <Screen
-                name="Cardápio"
-                component={CardapioAdmin}
-                options={{
-                    tabBarIcon: (({ size, color }) => (
-                        <MaterialIcons name="menu-book" size={size} color={color} />
-                    ))
+                    
                 }}
             />
             <Screen
                 name="Comanda"
                 component={ComandaStackScreen}
                 options={{
+                    unmountOnBlur: true,
                     tabBarIcon: (({ size, color }) => (
                         <Feather name="file-text" size={size} color={color} />
                     ))

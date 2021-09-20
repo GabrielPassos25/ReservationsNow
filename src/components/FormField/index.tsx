@@ -7,7 +7,8 @@ import { Control, Controller } from 'react-hook-form';
 const icons = {
     email: "email-outline",
     password: "key-outline",
-    name: "account-outline"
+    name: "account-outline",
+    code: "account-lock-outline"
 }
 
 interface Props extends TextInputProps {
@@ -15,7 +16,7 @@ interface Props extends TextInputProps {
     name: string;
     error: string;
     title: string,
-    type: 'email' | 'password' | 'name';
+    type: 'email' | 'password' | 'name' | 'code';
 }
 
 

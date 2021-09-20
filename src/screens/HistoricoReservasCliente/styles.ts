@@ -6,6 +6,12 @@ export const Container = styled.View`
     height: 100%;
     justify-content: space-between;
     align-items: center;
-    background: ${({ theme }) => theme.colors.gray_light};
+    background: ${({ theme }) => theme.colors.gray};
 
+`;
+
+export const DataText = styled.Text`
+    font-family: ${({theme}) => theme.fonts.regular};
+    font-size: ${RFValue(16)}px;
+    margin-top: ${RFValue(20)}px;
 `;

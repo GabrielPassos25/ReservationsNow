@@ -1,7 +1,6 @@
 import React from "react";
-
-import LogoImage from "../../assets/Logo.png";
-import { Container, Logo, PageName } from "./styles";
+import { Container, PageName, HomeContainer } from "./styles";
+import {RenderSvg} from '../RenderSvg'
 
 interface Props {
   name: string;
@@ -10,8 +9,10 @@ interface Props {
 export function TopTab({ name }: Props) {
   return (
     <Container>
-      <Logo source={LogoImage} />
-      <PageName>{name}</PageName>
+      <HomeContainer>
+        <RenderSvg name="logo_toptab"/>
+        <PageName>{name}</PageName>
+      </HomeContainer>
     </Container>
   );
 }

@@ -15,6 +15,8 @@ export const Container = styled.View`
   width: 85%;
   max-width: 350px;
   height: 125px;
+  elevation: 7;
+  box-shadow: 2px 5px 2px rgba(177, 177, 177, 0.25);
 `;
 export const AreaLeft = styled.View`
   justify-content: space-between;
@@ -65,4 +67,18 @@ export const TitleH3 = styled.Text`
   font-family: ${({ theme }) => theme.fonts.medium};
   font-size: ${RFValue(12)}px;
   color: ${({ theme }) => theme.colors.primary_light1};
+`;
+
+export const Button = styled.TouchableOpacity`
+  background-color: ${({ theme }) => theme.colors.pink};
+  width: ${RFValue(94)}px;
+  height: ${RFValue(35)}px;
+  justify-content: center;
+  border-radius: 15px;
+`;
+
+export const Text = styled.Text`
+  text-align: center;
+  color: ${({ theme }) => theme.colors.white};
+  font-family: ${({ theme }) => theme.fonts.bold}; ;
 `;

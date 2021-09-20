@@ -1,10 +1,10 @@
 import React from 'react';
-import { Platform } from 'react-native';
+import { Alert, Platform } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-
+import { api } from "../../utils/api";
 import { ButtonInitial } from '../../components/ButtonInitial';
 import { FormField } from '../../components/FormField';
 import { Container, BackButton, Icon, BackText, Title, Forms, ButtonInitialContainer, StatusBarAndroid, StatusBarIOS } from './styles';
@@ -21,8 +21,14 @@ interface Props {
     navigation: any;
 }
 
+
+interface IQueryResponse {
+    message: string,
+    status: number,
+    data?: any
+  }
+
 export function RequestChangePassword({navigation} : Props) {
-    const [visible, setVisible] = React.useState(false);
     const {
         control,
         handleSubmit,
@@ -31,11 +37,29 @@ export function RequestChangePassword({navigation} : Props) {
         resolver: yupResolver(schema)
     });
 
-    function handleRegister(form: FormData) {
+    async function handleRegister(form: FormData) {
         const data = {
             email: form.email
         }
-        console.log(data)
+        let rota = "/forgot"
+        let response:IQueryResponse = (await api.post(rota, data)).data.response;
+        if(response.status != 200){
+            Alert.alert(
+                "Erro",
+                response.message,
+                [
+                {
+                    text: 'ok',
+                    onPress: () => {
+                    //Do nothing
+                    }
+                }
+                ]
+            );
+        }
+        else{
+            navigation.push("CodeChangePassword");
+        }
     }
 
     return (

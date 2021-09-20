@@ -7,7 +7,7 @@ export const Container = styled.View`
 `;
 export const Button = styled.TouchableOpacity`
     background-color: ${({ theme }) => theme.colors.white};
-    box-shadow: 1px 3px 4px rgba(177, 177, 177, 0.25);
+    box-shadow: 2px 5px 2px rgba(177, 177, 177, 0.25);
  
     width:  ${RFValue(92)}px;
     height: 110px;
@@ -15,7 +15,7 @@ export const Button = styled.TouchableOpacity`
     border-radius: 15px;
     align-items: center;
     justify-content: center;
-  
+    elevation: 4; 
 `;
 export const InfosArea = styled.View`
     flex-direction: column;

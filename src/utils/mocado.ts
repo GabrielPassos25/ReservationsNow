@@ -101,3 +101,35 @@ export const dataPrato = [
     price: 25,
   },
 ];
+
+
+export const lugares = [
+  {
+    id: "0",
+    quant: "Todas as Mesas"
+  },
+  {
+    id: "1",
+    quant: "01 Lugar"
+  },
+  {
+    id: "2",
+    quant: "02 Lugares"
+  },
+  {
+    id: "3",
+    quant: "03 Lugares"
+  },
+  {
+    id: "4",
+    quant: "04 Lugares"
+  },
+  {
+    id: "5",
+    quant: "05 Lugares"
+  },
+  {
+    id: "6",
+    quant: "+06 Lugares"
+  },
+];

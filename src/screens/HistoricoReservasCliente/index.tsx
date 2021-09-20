@@ -1,24 +1,40 @@
-import React from 'react';
-import { RFValue } from 'react-native-responsive-fontsize';
-import { Container} from './styles';
+import React from "react";
+import { FlatList } from "react-native";
+import { RFValue } from "react-native-responsive-fontsize";
+import { CardHistorico } from "../../components/CardHistorico";
 
-// import iconRestaurante from '../../assets/restauranteAlt.png'
+import { TopTab } from "../../components/TopBar";
 
-import { FlatList } from 'react-native';
-import { CardRestaurante } from '../../components/CardRestaurante';
-import { restaurantes } from '../ListaDeRestaurantesClient/mocado';
+import { pedidos } from "../HistoricoReservasCliente/mocado";
 
-import { TopTab } from '../../components/TopBar';
-
+import { Container, DataText } from "./styles";
 
 export function HistoricoReservasCliente() {
-    return (
-        <Container> 
-            <TopTab name={"Histórico de reservas"}/>
-            <FlatList data={restaurantes.todos} showsVerticalScrollIndicator={false} contentContainerStyle={{ alignItems: 'center', justifyContent: 'center', width: '90%', paddingBottom: RFValue(30) }} renderItem={({item})=> 
-                <CardRestaurante key={item.id} title={`Reserva - ${item.data}`} descricao={item.name} disabled={true}/>
-                }/>
-        </Container>
-       
-    );
+  return (
+    <Container>
+      <TopTab />
+      <FlatList
+        data={pedidos.todos}
+        showsVerticalScrollIndicator={false}
+        keyExtractor={(item) => String(item.id)}
+        contentContainerStyle={{
+          alignItems: "center",
+          justifyContent: "center",
+          width: "90%",
+          paddingBottom: RFValue(30),
+          marginTop: RFValue(20),
+        }}
+        renderItem={({ item }) => (
+          <CardHistorico
+            key={item.id}
+            title={item.name}
+            id={item.id}
+            data={item.data}
+            details={item.detalhes}
+            disabled={true}
+          />
+        )}
+      />
+    </Container>
+  );
 }

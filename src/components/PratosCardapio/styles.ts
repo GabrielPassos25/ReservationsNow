@@ -3,14 +3,11 @@ import { RFValue } from "react-native-responsive-fontsize";
 
 export const InfoContainer = styled.View`
   background-color: ${({ theme }) => theme.colors.gray_light};
-
   width: 100%;
-
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  height: 155px;
-  padding: 15px 10px;
+  padding: 10px;
 `;
 
 export const InfoImage = styled.View`
@@ -33,8 +30,6 @@ export const Title = styled.Text`
   color: ${({ theme }) => theme.colors.gray_dark};
 `;
 export const Description = styled.Text`
-  overflow: hidden;
-  max-height: 50%;
   text-align: justify;
   font-size: ${RFValue(9)}px;
   font-family: ${({ theme }) => theme.fonts.medium};

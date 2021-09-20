@@ -1,31 +1,32 @@
-import React from 'react';
-import SvgUri from 'react-native-svg-uri';
-import { Container, SubTitle , Button} from './styles';
-import { useNavigation } from '@react-navigation/native';
+import React from "react";
+import SvgUri from "react-native-svg-uri";
+import { Container, SubTitle, Button } from "./styles";
+import { useNavigation } from "@react-navigation/native";
 
-import Tables from '../../icon/tables';
-import Cardapio from '../../icon/cardapio';
-import Payment from '../../icon/payment';
-import Command from '../../icon/command';
-import Historico from '../../icon/historico';
-import { RenderSvg } from '../RenderSvg';
+import Tables from "../../icon/tables";
+import Cardapio from "../../icon/cardapio";
+import Payment from "../../icon/payment";
+import Command from "../../icon/command";
+import Historico from "../../icon/historico";
+import { RenderSvg } from "../RenderSvg";
 
-interface Props  {
-    title: string;
-    name:  string;
-    screen: string;
+interface Props {
+  title: string;
+  name: string;
+  screen: string;
+  infos: any;
 }
 
-export function ButtonMain({ title,name, screen }: Props) {
-    const navigation = useNavigation(); 
-    return (
-        <Container> 
-            <Button onPress={() => navigation.navigate('ClientRoutes', {screen: screen})}>
-                <RenderSvg name= {name} />	
-            </Button>
-            <SubTitle>
-                {title}
-            </SubTitle>
-        </Container>
-    );
+export function ButtonMain({ title, name, screen, infos }: Props) {
+  const navigation = useNavigation();
+  return (
+    <Container>
+      <Button
+        onPress={() => navigation.navigate("ClientRoutes", { screen: screen, params: {infos} })}
+      >
+        <RenderSvg name={name} height={60} width={60} />
+      </Button>
+      <SubTitle>{title}</SubTitle>
+    </Container>
+  );
 }

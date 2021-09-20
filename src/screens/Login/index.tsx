@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Container,
   Forms,
@@ -13,7 +13,7 @@ import {
   ImageContainer,
 } from "./styles";
 import SvgUri from "react-native-svg-uri";
-import { Platform, View, LayoutRectangle } from "react-native";
+import {  Alert, Platform, View, LayoutRectangle } from "react-native";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -21,12 +21,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { FormFieldLogin } from "../../components/FormFieldLogin";
 
 import { DynamicScrollView } from "../../components/DynamicScrollView";
-
+import { api } from "../../utils/api";
 import LoginImage from "../../assets/logo.svg";
 import theme from "../../global/styles/theme";
 import { ButtonLogin } from "../../components/ButtonLogin";
 import { RenderSvg } from "../../components/RenderSvg";
-
+import { RestauranteContext } from "../../components/Contexts/RestauranteContext";
 const schema = Yup.object().shape({
   email: Yup.string().email("Email inválido").required("Email é obrigatório!"),
   password: Yup.string()
@@ -40,7 +40,20 @@ interface Props {
   navigation: any;
 }
 
+interface FormData {
+  email: string;
+  password: string;
+}
+
+interface IQueryResponse {
+  message: string,
+  status: number,
+  data?: any
+}
+
 export function Login({ navigation } : Props) {
+
+  const {setIdCliente} = useContext(RestauranteContext)
   const {
     control,
     handleSubmit,
@@ -53,6 +66,45 @@ export function Login({ navigation } : Props) {
     const { height } = layout;
     setHeight(height);
     return height;
+  }
+  const {setInfos} = useContext(RestauranteContext);
+  async function handleLogin(form: FormData){
+    const data = {
+      email: form.email,
+      senha: form.password
+    }
+    let rota = "/login"
+    if(data.email.endsWith("reservationsnow.com")){
+      rota += "/admin";
+    }
+    let response:IQueryResponse = (await api.post(rota, data)).data.response;
+    if(response.status != 200){
+      Alert.alert(
+        "Erro",
+        response.message,
+        [
+          {
+            text: 'ok',
+            onPress: () => {
+              //Do nothing
+            }
+          }
+        ]
+      );
+    }
+    else{
+      if(data.email.endsWith("reservationsnow.com")){
+        const id_restaurante =response.data.id_restaurante;
+        response = (await api.get('/restaurante/' + id_restaurante)).data.response;
+        setInfos(response.data);
+        
+        navigation.push("AdminRoutes");
+      }
+      else{
+        setIdCliente(response.data.id)
+        navigation.push("ClientRoutes", {screen: "Initial"});
+      }
+    }
   }
 
   const [height, setHeight] = useState(0);
@@ -107,8 +159,7 @@ export function Login({ navigation } : Props) {
             </ButtonRecuperarSenha>
             <ButtonLogin
               title="Entrar"
-              // onPress={() => navigation.push("DashboardClient")}
-              onPress={() => navigation.push("AdminRoutes")}
+              onPress={handleSubmit(handleLogin)}
             />
             <TextoRegistro>Não possui conta?</TextoRegistro>
             <ButtonRegistro onPress={() => navigation.push("Register")}>

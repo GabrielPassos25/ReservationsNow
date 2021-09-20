@@ -7,6 +7,7 @@ export default {
     primary_light4: "#4F6E8E",
     primary_light5: "#4F79A4",
     primary_light6: "#5982AD",
+    yellow: "#FDCC0D",
     pink: "#FFC2C8",
     purple: "#B0A4E8",
     purple_medium: "#745f9a",
@@ -16,13 +17,15 @@ export default {
     green_blue: "#CACACA",
     gray: "#DCDCDC",
     gray_light: "#F5F5F5",
+    gray_light2: "#F4F4F4",
     gray_dark: "#666666",
     gray_dark_2: "#8C8C8C",
-
+    yellow: "#FDCC0D",
     white: "#FFFFFF",
     black: "#000000",
 
     background_modal: "rgba(30, 30, 30, 0.5)",
+    background_buttons: "#EEEEF0",
   },
   fonts: {
     regular: "Poppins_400Regular",

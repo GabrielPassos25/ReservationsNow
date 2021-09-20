@@ -1,27 +1,26 @@
+import { Dimensions } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
 export const Container = styled.TouchableOpacity`
+    width: ${Dimensions.get("screen").width}px;
+    height: 110px;
+    paddingVertical: 20px;
     flex-direction: row;
-    justify-content: flex-start;
     align-items: center;
-  
-    width: 100%;
-    height: 150px;
-    margin-top: 20px;
-
+    justify-content: flex-start;
     background-color: ${({ theme }) => theme.colors.white};
-    box-shadow: 1px 3px 4px rgba(177, 177, 177, 0.25);
-    border-radius: 15px;
-  
 `;
+
 export const Image = styled.Image`
-    height: ${RFValue(125)}px;
-    width: ${RFValue(125)}px;
+    height: ${RFValue(80)}px;
+    width: ${RFValue(80)}px;
+    border-radius: 12px;
 `;
+
 export const InfosArea = styled.View`
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: flex-start;
     width: 65%;
     margin-left: 5px;
@@ -30,19 +29,30 @@ export const InfosArea = styled.View`
 `;
 export const TitleRestaurante = styled.Text`
     font-size: ${RFValue(14)}px;
-    font-weight: 700;
-
-    line-height: 21px;
-    color: #666666;
-  
+    font-family: ${({theme}) => theme.fonts.medium};
+    color: ${({ theme }) => theme.colors.black};
 `;
 
-export const SubtitleRestaurante = styled.Text`
+export const DetailsRestaurante = styled.Text`
     font-size: ${RFValue(11)}px;
     font-family: ${({ theme }) => theme.fonts.medium};
-    margin-top: 15px;
-    font-weight: 500;
-    line-height: 15px;
-    color: ${({ theme }) => theme.colors.black};
+    color: ${({ theme }) => theme.colors.gray_dark};
+    padding-bottom: 10px;
     opacity: 0.9;
+`;
+
+export const RateRestaurante = styled.View`
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 25px;
+`;
+
+
+export const RateText = styled.Text`
+    padding: 3px 0 0 3px;
+    font-size: ${RFValue(14)}px;
+    font-family: ${({theme}) => theme.fonts.medium};
+    color: ${({theme}) => theme.colors.gray_dark}
 `;

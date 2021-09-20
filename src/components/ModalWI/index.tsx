@@ -20,7 +20,8 @@ import {
 
 interface ModalProps {
   cancel: () => void;
-  exit: () => void;
+  exit?: () => void;
+  confirm: () => void;
   title: string;
   text?: string;
   textConfirm?: string;
@@ -31,6 +32,7 @@ interface ModalProps {
 export function ModalWI({
   cancel,
   exit,
+  confirm,
   title,
   text,
   textConfirm,
@@ -63,7 +65,7 @@ export function ModalWI({
                 <ButtonOption
                   onPress={() => {
                     setModalVisible(false);
-                    exit();
+                    confirm();
                   }}
                 >
                   <ButtonText>{textConfirm ?? "Reservar"}</ButtonText>

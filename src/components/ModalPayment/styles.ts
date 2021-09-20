@@ -11,9 +11,8 @@ export const Content = styled.View`
   background-color: white;
   border-radius: 10px;
   align-items: center;
-  shadow-color: ${({ theme }) => theme.colors.black};
-  shadow-opacity: 1;
-  shadow-radius: 10px;
+  elevation: 7;
+  box-shadow: 2px 5px 2px rgba(177, 177, 177,1);
 `;
 export const Title = styled.Text`
   margin-top: ${RFValue(20)}px;

@@ -7,16 +7,19 @@ export const Container = styled.View`
 
 export const AreaCenter = styled.View`
     width: 100%;
-    padding: 30px 15px; 
 `;
 export const Title = styled.Text`
     width: 100%;
-    font-size: ${RFValue(17)}px;
+    font-size: ${RFValue(16)}px;
+    margin-left: ${RFValue(5)}px;
     font-family: ${({ theme }) => theme.fonts.medium};
     color: ${({ theme }) => theme.colors.purple_dark}; 
 
 `;
 export const AreaFlatList = styled.View`
     width: 100%;
-    margin-top: 35px;
+`;
+
+export const AreaSelector = styled.View`
+    padding: 10px; 
 `;

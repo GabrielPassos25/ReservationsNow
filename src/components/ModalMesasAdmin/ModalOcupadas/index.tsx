@@ -11,6 +11,7 @@ import {
   ContainerButtons,
 } from "./styles";
 import InputCheckbox from "../../InputCheckbox";
+import { useNavigation } from "@react-navigation/native";
 
 interface PropsModalOcupadas {
   onCancel: () => void;
@@ -21,18 +22,18 @@ export function ModalOcupadas({ onCancel, onExit }: PropsModalOcupadas) {
   const [toggleCheckPedido, setToggleCheckPedido] = useState(false);
   const [toggleCheckPagamento, setToggleCheckPagamento] = useState(false);
   const [toggleCheckOcupada, setToggleCheckOcupada] = useState(false);
+  const navigation = useNavigation();
   return (
     <ModalWI
       title="O que deseja fazer?"
       textCancel="Sair"
       textConfirm="Concluir"
       cancel={onCancel}
-      exit={onExit}
+      confirm={onExit}
     >
       <ContainerModal>
         <ContainerButtons>
-          <ButtonModalSimple title={"Realizar pedido"} />
-          <ButtonModalSimple title={"Ver comanda"} />
+          <ButtonModalSimple title={"Realizar pedido"} onPress={() => navigation.push("AdminRoutes", { screen: "Comanda" })}/>
         </ContainerButtons>
         <CheckboxContainer>
           <TitleCheckBox>Atualizar</TitleCheckBox>

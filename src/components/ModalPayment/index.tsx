@@ -1,18 +1,22 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import { Modal, KeyboardAvoidingView, Platform, Keyboard, TouchableWithoutFeedback} from 'react-native';
 import { FormFieldLogin } from '../FormFieldLogin';
 import {ModalContainer, Content, Title, Description, Space, Buttons, ButtonOption, Divider, ButtonText} from './styles'
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-
+import {api} from '../../utils/api';
+import { RestauranteContext } from "../../components/Contexts/RestauranteContext";
+import { useNavigation } from "@react-navigation/native";
 interface ModalProps{
     cancel: () => void;
     exit: () => void;
 }
 
 export function ModalPayment({cancel, exit} : ModalProps) {
+    const { comandaAtual } = useContext(RestauranteContext);
     const [modalVisible, setModalVisible] = useState(true);
+    const navigation = useNavigation();
     const schema = Yup.object().shape({
         name: Yup.string().required('Nome é obrigatório!'),
         password: Yup.string().required('Senha é obrigatória!'),
@@ -24,6 +28,13 @@ export function ModalPayment({cancel, exit} : ModalProps) {
     } = useForm({
         resolver: yupResolver(schema)
     });
+    async function handleEncerrar(){
+        await api.patch('/comanda/' + comandaAtual.id);
+        setModalVisible(false); 
+        exit();
+        navigation.navigate("AdminRoutes", { screen: "Início"});
+    }
+
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <Modal
@@ -45,7 +56,7 @@ export function ModalPayment({cancel, exit} : ModalProps) {
                                 <ButtonText>Cancelar</ButtonText>
                             </ButtonOption>
                             <Divider>|</Divider>
-                            <ButtonOption onPress ={() => {setModalVisible(false); exit()}}>
+                            <ButtonOption onPress ={handleEncerrar}>
                                 <ButtonText>Encerrar</ButtonText>
                             </ButtonOption>
                         </Buttons>

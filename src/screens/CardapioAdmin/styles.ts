@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import { TouchableOpacity } from "react-native";
+
 import { Dimensions } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 
@@ -47,9 +47,15 @@ export const TextButton = styled.Text`
   font-size: ${RFValue(12)}px;
   font-family: ${({ theme }) => theme.fonts.medium};
 `;
+export const TextButton2 = styled.Text`
+  color: ${({ theme }) => theme.colors.white};
+  font-size: ${RFValue(17)}px;
+  font-family: ${({ theme }) => theme.fonts.medium};
+`;
 
 export const TextModal = styled.Text`
   color: ${({ theme }) => theme.colors.purple_dark};
   font-size: ${RFValue(12)}px;
   font-family: ${({ theme }) => theme.fonts.medium};
 `;
+

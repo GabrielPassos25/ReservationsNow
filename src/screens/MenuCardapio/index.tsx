@@ -1,5 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { FlatList } from "react-native";
+
+import { TopTab } from "../../components/TopBar";
+import { TopButtons } from "../../components/TopButtons";
+import { PratosCardapio } from "../../components/PratosCardapio";
+import { api } from "../../utils/api";
+import Logo from "../../assets/Logo.png";
 
 import {
   Container,
@@ -8,14 +14,11 @@ import {
   DescriptionContainer,
   Separator,
 } from "./styles";
-
-import { TopTab } from "../../components/TopTab";
-import { TopButtons } from "../../components/TopButtons";
-import { PratosCardapio } from "../../components/PratosCardapio";
-
-import Logo from "../../assets/Logo.png";
+import { RestauranteContext } from "../../components/Contexts/RestauranteContext";
 
 export function MenuCardapio() {
+  const { infos } = useContext(RestauranteContext);
+  const [pratos, setPratos] = useState<any>([]);
   const dataPrato = [
     {
       id: "01",
@@ -70,11 +73,21 @@ export function MenuCardapio() {
   function handleMenuSelected(menuOption: string) {
     setMenuSelected(menuOption);
   }
-
+  useEffect(() => {
+    async function getData() {
+      await api
+        .get(`/pratos/${infos.id}`)
+        .then(({ data }) => {
+          setPratos(data.response.data);
+        })
+        .catch((error) => console.log("Ops", error));
+    }
+    getData();
+  }, []);
   return (
     <Container>
       <StatusBarAndroid />
-      <TopTab name="Cardápio" />
+      <TopTab />
 
       <ButtonsContainer>
         <TopButtons
@@ -90,6 +103,11 @@ export function MenuCardapio() {
         />
 
         <TopButtons
+          title="BEBIDAS"
+          active={"BEBIDAS" === menuSelected}
+          onPress={() => handleMenuSelected("BEBIDAS")}
+        />
+        <TopButtons
           title="SOBREMESAS"
           active={"SOBREMESAS" === menuSelected}
           onPress={() => handleMenuSelected("SOBREMESAS")}
@@ -98,7 +116,7 @@ export function MenuCardapio() {
 
       <DescriptionContainer>
         <FlatList
-          data={dataPrato}
+          data={pratos.filter((prato: any) => prato.categoria === menuSelected)}
           keyExtractor={(item) => String(item.id)}
           showsVerticalScrollIndicator={false}
           ItemSeparatorComponent={() => <Separator />}

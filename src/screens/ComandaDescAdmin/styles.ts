@@ -13,3 +13,8 @@ export const AreaFlatList = styled.View`
 
   margin-top: 35px;
 `;
+export const TextButton2 = styled.Text`
+  color: ${({ theme }) => theme.colors.white};
+  font-size: ${RFValue(17)}px;
+  font-family: ${({ theme }) => theme.fonts.medium};
+`;

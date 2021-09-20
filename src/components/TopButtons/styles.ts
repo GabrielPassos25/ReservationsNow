@@ -18,7 +18,6 @@ export const ButtonContainer = styled.View<ButtonProps>`
 `;
 
 export const TabButton = styled(RectButton)`
-  width: ${Dimensions.get("screen").width * (1 / 3)}px;
   height: 55px;
   align-items: center;
   justify-content: center;

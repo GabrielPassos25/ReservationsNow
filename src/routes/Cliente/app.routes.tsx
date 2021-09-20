@@ -20,6 +20,7 @@ import { MenuCardapio } from "../../screens/MenuCardapio";
 import { HistoricoReservasCliente } from "../../screens/HistoricoReservasCliente";
 import { ComandaCliente } from "../../screens/ComandaCliente";
 import { PaymentChoice } from "../../screens/PaymentChoice";
+import { RestauranteContextProvider } from "../../components/Contexts/RestauranteContext";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -31,10 +32,7 @@ function ReservaStackScreen() {
       initialRouteName={"Initial"}
       screenOptions={{ headerShown: false, animationEnabled: false }}
     >
-      <ReservaStack.Screen
-        name="Initial"
-        component={ListaDeRestaurantesClient}
-      />
+      <ReservaStack.Screen name="Initial" component={DashboardClient} />
       <ReservaStack.Screen name="Details" component={ReservaMesa} />
     </ReservaStack.Navigator>
   );
@@ -60,7 +58,7 @@ export function ClientRoutes() {
     >
       <Screen
         name="Início"
-        component={DashboardClient}
+        component={ListaDeRestaurantesClient}
         options={{
           tabBarIcon: ({ size, color }) => (
             <Ionicons name="home" size={size} color={color} />
@@ -97,7 +95,7 @@ export function ClientRoutes() {
       />
       <Screen
         name="Reservas"
-        component={ReservaStackScreen}
+        component={ReservaMesa}
         options={{
           unmountOnBlur: true,
           tabBarIcon: ({ size, color }) => (
@@ -107,20 +105,6 @@ export function ClientRoutes() {
               color={color}
             />
           ),
-        }}
-      />
-      <Screen
-        name="Pagamento"
-        component={PaymentChoice}
-        options={{
-          tabBarIcon: ({ size, color }) => (
-            <MaterialCommunityIcons
-              name="cash-multiple"
-              size={size}
-              color={color}
-            />
-          ),
-          tabBarVisible: false,
         }}
       />
     </Navigator>

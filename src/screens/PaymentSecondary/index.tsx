@@ -40,7 +40,7 @@ export function PaymentSecondary({route, navigation} : Props) {
             {
                 Platform.OS === 'ios' ? < StatusBarIOS /> : <></>
             }
-                <BackButton onPress={() => navigation.navigate('DashboardClient')}>
+                <BackButton onPress={() => navigation.navigate("AdminRoutes", { screen: "Início"})}>
                     <Icon name="arrow-left" size={24} color="white" />
                     <BackText>Voltar</BackText>
                 </BackButton>

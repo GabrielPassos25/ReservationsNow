@@ -52,7 +52,7 @@ export function PaymentChoice({navigation} : Props) {
                     Platform.OS === 'ios' ? <StatusBarIOS /> : <></>
                 }
 
-                <BackButton onPress={() => navigation.push('DashboardClient')}>
+                <BackButton onPress={() => navigation.push('ClientRoutes', {screen: 'Comanda'})}>
                     <Feather
                         name="arrow-left"
                         size={24}

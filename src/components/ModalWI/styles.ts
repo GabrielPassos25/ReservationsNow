@@ -24,8 +24,8 @@ export const Title = styled.Text`
 `;
 export const Description = styled.Text`
   margin-top: ${RFValue(10)}px;
-  padding-left: 10;
-  padding-right: 10;
+  padding-left: 10px;
+  padding-right: 10px;
   font-size: ${RFValue(12)}px;
   text-align: center;
   font-family: ${({ theme }) => theme.fonts.regular};

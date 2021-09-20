@@ -1,20 +1,13 @@
 import React from 'react';
-import { RFValue } from 'react-native-responsive-fontsize';
-import SvgUri from 'react-native-svg-uri';
-import LogoImage from '../../assets/logo.svg'
-import { Container, PageName } from './styles';
+import { Container, HomeContainer} from './styles';
 import {RenderSvg} from '../RenderSvg'
 
-
-interface Props {
-    name: string;
-}
-
-export function TopTab({ name }: Props) {
+export function TopTab() {
     return (
         <Container>
-            <RenderSvg name="logo"/>
-            <PageName>{name}</PageName>
+            <HomeContainer>
+                <RenderSvg name="logo_toptab"/>
+            </HomeContainer>
         </Container>
     );
 }
